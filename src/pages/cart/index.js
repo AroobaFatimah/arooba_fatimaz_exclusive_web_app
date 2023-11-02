@@ -73,12 +73,12 @@ export const Cart = () => {
             <hr />
             <div className='my-3 flex justify-between'>
               <h2>Shipping Fee</h2>
-              <h2>0</h2>
+              <h2>Free</h2>
             </div>
             <hr />
             <div className='my-3 flex justify-between'>
               <h2>Total</h2>
-              <h2>0</h2>
+              <h2>{subtotal}</h2>
             </div>
             <div className='flex justify-center'>
               <Button onClick={downloadPDF} className={'bg-pink text-white p-4 rounded-sm'} variant={"transparent"} size={"large"} text={"Download Recipt"} />
