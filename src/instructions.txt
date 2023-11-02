@@ -1,0 +1,12 @@
+make the header reusable by setting the active page 
+make the web app responsive
+there is add to cart button in cards on products page but not on home page. handle it by checking pages
+set store for active page, cart items, users, active user
+also store that data in storage using redux persist library
+add pages links
+show favorite items count in header
+add to favorite is available on home page only.
+
+calculate subtotal
+search functionality 
+handle remove from favorites
