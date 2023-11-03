@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import allProducts from '../../../products.json'
 const initialState = {
     favorites: [],
     cart: [],
@@ -20,7 +20,8 @@ export const productSlice = createSlice({
             return { ...state, cart: [...state.cart, productAddedToCart] };
         },
         addAllToCart: (state, action) => {
-            state.cart = state.products
+            console.log(allProducts)
+            state.cart = allProducts;
         },
         removeFromCart: (state, action) => {
             const {productId} = action.payload;
