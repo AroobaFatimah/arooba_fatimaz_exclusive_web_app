@@ -15,6 +15,7 @@ const sizes = {
 
 export const Button = ({
     svg,
+    src,
     type,
     onClick,
     onSubmit,
@@ -34,7 +35,7 @@ export const Button = ({
                 svg={svg}
                 {...props}
             >
-                <div className='flex justify-center items-center'>{text} {svg}</div></button>
+                <div className='flex justify-center items-center'><img className='mr-2' src={src}/>{text}</div></button>
         </div>
     )
 }

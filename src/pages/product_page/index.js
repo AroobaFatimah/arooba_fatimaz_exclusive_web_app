@@ -26,7 +26,7 @@ export const ProductsPage = () => {
                 </div>
             </div>
             <div className='flex justify-center mb-36'>
-                <div className='grid grid-cols-4 gap-6' style={{ width: "1380px" }}>
+                <div className='grid grid-cols-4 gap-6 max-sm:grid-cols-1' style={{ width: "1380px" }}>
                     {filteredProducts.map((product) => (
                         <div key={product.id}>
                             <Card selectedProduct={product} discount={product.discountInPercentage} productName={product.title} oldPrice={product.oldPrice} newPrice={product.newPrice} image={product.image} />

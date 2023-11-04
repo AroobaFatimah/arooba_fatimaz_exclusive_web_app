@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import allProducts from '../../../products.json'
 const initialState = {
-    favorites: [],
+    favoriteProducts: [],
     cart: [],
+    subtotal: "0"
 }
 export const productSlice = createSlice({
     name: 'products',
@@ -10,10 +11,13 @@ export const productSlice = createSlice({
     reducers: {
         addToFavorites: (state, action) => {
             const {favoriteProduct} = action.payload;
-            state.favorites.push(favoriteProduct);
+            console.log("favorite product: ", favoriteProduct)
+            return { ...state, favoriteProducts: [...state.favoriteProducts, favoriteProduct] };
+            //state.favorites.push(favoriteProduct);
         },
         removeFromFavorites: (state, action) => {
-
+            const {productId} = action.payload;
+            state.favoriteProducts = state.favoriteProducts.filter(item => item.id !== productId);
         },
         addToCart: (state, action) => {
             const {productAddedToCart} = action.payload;
@@ -30,9 +34,13 @@ export const productSlice = createSlice({
         removeAllFromCart: (state, action) => {
             state.cart = [];
         },
-        
+        addSubtotalToCartItem: (state, action) => {
+            const {itemIndex, itemWithSubtotal} = action.payload;
+            console.log(itemWithSubtotal)
+            state.cart.splice(itemIndex, 1, itemWithSubtotal);
+        }
     },
 })
 
-export const {addToFavorites, addToCart, addAllToCart, removeFromCart, removeAllFromCart, } = productSlice.actions;
+export const {addToFavorites, removeFromFavorites, addToCart, addAllToCart, removeFromCart, removeAllFromCart, addSubtotalToCartItem} = productSlice.actions;
 export default productSlice.reducer;

@@ -11,20 +11,30 @@ export const Header = ({ setFilteredProducts, products }) => {
     console.log(activePage)
 
     //set favorites count and cart items count
-    const favorites = useSelector(state => state.products.favorites)
+    const favorites = useSelector(state => state.products.favoriteProducts)
     const cartItems = useSelector(state => state.products.cart)
 
-    //search functionality
+    //search functionality (searched on base of title)
     const [searchQuery, setSearchQuery] = useState('');
 
     const filterProducts = (searchQuery) => {
         console.log("searched: ", searchQuery);
-        if (!searchQuery) {
-            setFilteredProducts(products);
+        if(activePage == "Cart"){
+            if (!searchQuery) {
+                setFilteredProducts(cartItems);
+            }
+            else {
+                setFilteredProducts(cartItems.filter(item => (item.title).replace(/ /g, '').toLowerCase() == searchQuery))
+            }
         }
-        else {
-            setFilteredProducts(products.filter(product => product.tags == searchQuery))
-        }
+        else{
+            if (!searchQuery) {
+                setFilteredProducts(products);
+            }
+            else {
+                setFilteredProducts(products.filter(product => (product.title).replace(/ /g, '').toLowerCase() == searchQuery))
+            }
+        }    
     };
 
     return (

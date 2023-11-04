@@ -5,7 +5,6 @@ import { Banner } from '../../components/banner'
 import { Card } from '../../components/productCard'
 import { Button } from '../../components/button'
 import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
 import { setActivePage } from '../../app/features/activePage/activePageSlice'
 export const Home = () => {
 
@@ -15,9 +14,8 @@ export const Home = () => {
   const dispatch = useDispatch();
   dispatch(setActivePage("Home"));
 
-  //setting button text, favorites count and cart items count
+  //setting button text
   const [buttonText, setButtonText] = useState("View All Products");
-  const favoriteProducts = useSelector(state => state.products.favorites);
 
   //for search functionality
   const [filteredProducts, setFilteredProducts] = useState(products)
@@ -27,10 +25,10 @@ export const Home = () => {
       <Header products={products} setFilteredProducts={setFilteredProducts} />
       <Banner />
       <h2 className='font-bold text-4xl text-center mt-32 mb-10'>New <span className='text-pink'>Products</span></h2>
-      <div className='flex justify-center mb-36'>
-        <div className='grid grid-cols-4 gap-6' style={{ width: "1380px" }}>
+      <div className='flex justify-center mb-36 '>
+        <div className='grid grid-cols-4 gap-6 max-sm:grid-cols-1' style={{ width: "1380px" }}>
           {buttonText == "View All Products" ? (filteredProducts.filter(product => product.id <= 4)).map((product) => (
-            <div key={product.id}>
+            <div key={product.id} className=''>
               <Card selectedProduct={product} discount={product.discountInPercentage} productName={product.title} oldPrice={product.oldPrice} newPrice={product.newPrice} image={product.image} />
             </div>
           )) : filteredProducts.map((product) => (

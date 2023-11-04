@@ -7,6 +7,13 @@ add pages links
 show favorite items count in header
 add to favorite is available on home page only.
 
-calculate subtotal
-search functionality 
-handle remove from favorites
+
+when the product's heart button is clicked, it should be added to favorites and its heart clr should be pink ---done
+And when the heart button of that favorite product is clicked again, it should be removed from favorites and the heart clr should be white ----done
+When the single product subtotal is calculated, its subtotal should be added to that cart item of the cart state ---done
+When the product is removed from cart, its subtotal should be removed as well ---done
+And on cart page, add the subtotal of all the cart items ----done
+search on the base of product title.
+also add cart icon on add to cart button ---done
+Handle the web app for different users
+Make it responsive

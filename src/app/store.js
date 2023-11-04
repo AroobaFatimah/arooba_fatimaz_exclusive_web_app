@@ -8,8 +8,6 @@ const persistProductsConfig = {
     key: 'products', 
     storage,
 };
-
-
 const persistedProductsReducer = persistReducer(persistProductsConfig, productsSlice);
 
 const store = configureStore({
