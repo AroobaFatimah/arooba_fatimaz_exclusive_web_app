@@ -32,7 +32,6 @@ export const Cart = () => {
       scale: 6,
       quality: 1.0,
       useCORS: true,
-      quality: 1.0
     }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
@@ -45,7 +44,7 @@ export const Cart = () => {
 
   return (
     <>
-      <Header setFilteredProducts={setFilteredProducts}/>
+      <Header setFilteredProducts={setFilteredProducts} items={cartItems}/>
       <div className='flex m-16 text-2xl font-semibold'>
         <Link to={'/'}><h2 className='text-gray-500'>Home</h2></Link>
         <h2> / </h2>
@@ -60,7 +59,7 @@ export const Cart = () => {
               <h2 className='w-1/4'>Quantity</h2>
               <h2 className='w-1/4'>SubTotal</h2>
             </div>
-            {filteredProducts.map(item => (
+            {cartItems.map(item => (
               <CartItem item={item} />
             ))}
           </div>

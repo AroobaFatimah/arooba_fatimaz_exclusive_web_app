@@ -6,7 +6,7 @@ import searchIcon from '../../assets/images/search_icon.png'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-export const Header = ({ setFilteredProducts, products }) => {
+export const Header = ({ setFilteredProducts, products, items }) => {
     const activePage = useSelector(state => state.activePage.activePage)
     console.log(activePage)
 
@@ -21,10 +21,10 @@ export const Header = ({ setFilteredProducts, products }) => {
         console.log("searched: ", searchQuery);
         if(activePage == "Cart"){
             if (!searchQuery) {
-                setFilteredProducts(cartItems);
+                setFilteredProducts(items);
             }
             else {
-                setFilteredProducts(cartItems.filter(item => (item.title).replace(/ /g, '').toLowerCase() == searchQuery))
+                setFilteredProducts(items.filter(item => (item.title).replace(/ /g, '').toLowerCase() == searchQuery))
             }
         }
         else{
