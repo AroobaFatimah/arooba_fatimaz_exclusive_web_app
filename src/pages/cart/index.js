@@ -11,11 +11,17 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 export const Cart = () => {
   const dispatch = useDispatch()
-  const cartItems = useSelector(state => state.products.cart)
+
+  //set active user
+  const activeUser = useSelector(state => state.users.activeUser)
+
+  //check active cart 
+  const carts = useSelector(state => state.products.carts)
+  let activeCart = carts.find(cart => cart.email == activeUser)
 
   //calculate subtotal 
   let subtotal = 0;
-  cartItems.map(cartItem => {
+  activeCart.cartItems.map(cartItem => {
     cartItem && (subtotal += cartItem.subtotal ? cartItem.subtotal : 0)
   })
 
@@ -23,7 +29,7 @@ export const Cart = () => {
   dispatch(setActivePage("Cart"))
 
   //for search functionality
-  const [filteredProducts, setFilteredProducts] = useState(cartItems)
+  const [filteredProducts, setFilteredProducts] = useState(activeCart.cartItems)
 
   //download pdf functionality
   const downloadPDF = () => {
@@ -44,35 +50,35 @@ export const Cart = () => {
 
   return (
     <>
-      <Header setFilteredProducts={setFilteredProducts} items={cartItems} />
-      <div className='flex m-16 text-2xl font-semibold'>
-        <Link to={'/'}><h2 className='text-gray-500'>Home</h2></Link>
+      <Header setFilteredProducts={setFilteredProducts} items={activeCart.cartItems} />
+      <div className='flex m-16 text-2xl'>
+        <Link to={'/home'}><h2 className='text-gray-400'>Home</h2></Link>
         <h2> / </h2>
         <h2>Cart</h2>
       </div>
       <div >
         <div className='flex justify-center'>
-          <div style={{ width: "1380px" }}>
+          <div className='w-1380'>
             <div className='flex justify-between w-full shadow my-7 p-3 py-7'>
               <h2 className='w-1/4'>Product</h2>
               <h2 className='w-1/4'>Price</h2>
               <h2 className='w-1/4'>Quantity</h2>
               <h2 className='w-1/4'>SubTotal</h2>
             </div>
-            {cartItems.map(item => (
+            {activeCart ? activeCart.cartItems.map(item => (
               item && (<CartItem item={item} />)
-            ))}
+            )) : ""}
           </div>
         </div>
       </div>
       <div className='flex justify-center'>
-        <div className='flex justify-between' style={{ width: "1380px" }}>
+        <div className='flex justify-between w-1380'>
           <Link to={"/products"}><Button variant={"transparent"} size={"large"} className={'rounded-sm border border-black p-4'} text={"Return to Products"} /></Link>
-          <Button onClick={() => dispatch(removeAllFromCart())} variant={"transparent"} size={"large"} className={'rounded-sm border border-black p-4'} text={"Remove All"} />
+          <Button onClick={() => dispatch(removeAllFromCart({ email: activeUser }))} variant={"transparent"} size={"large"} className={'rounded-sm border border-black p-4'} text={"Remove All"} />
         </div>
       </div>
       <div className='flex justify-center my-10'>
-        <div className='' style={{ width: "1380px" }}>
+        <div className='w-1380' >
           <div id='pdf-content' className='border border-black rounded-md p-10 w-1/3'>
             <h2 className='text-3xl font-semibold'>Cart Total</h2>
             <div className='my-3 flex justify-between'>

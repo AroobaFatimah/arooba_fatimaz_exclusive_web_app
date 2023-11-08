@@ -7,18 +7,22 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 export const Header = ({ setFilteredProducts, products, items }) => {
+    //check active page
     const activePage = useSelector(state => state.activePage.activePage)
-    console.log(activePage)
+
+    //check active user
+    let activeUser = useSelector(state => state.users.activeUser);
 
     //set favorites count and cart items count
-    const favorites = useSelector(state => state.products.favoriteProducts)
-    const cartItems = useSelector(state => state.products.cart)
+    const favorites = useSelector(state => state.products.favorites)
+    let activeFavorite = favorites.find(favorite => favorite.email == activeUser)
+    const carts = useSelector(state => state.products.carts)
+    let activeCart = carts.find(cart => cart.email == activeUser)
 
     //search functionality (searched on base of title)
     const [searchQuery, setSearchQuery] = useState('');
 
     const filterProducts = (searchQuery) => {
-        console.log("searched: ", searchQuery);
         if(activePage == "Cart"){
             if (!searchQuery) {
                 setFilteredProducts(items);
@@ -40,12 +44,12 @@ export const Header = ({ setFilteredProducts, products, items }) => {
     return (
         <>
             <div className='p-6 bg-black'></div>
-            <div className='flex items-center px-20 py-7' style={{ justifyContent: 'space-between' }}>
+            <div className='flex items-center px-20 py-7 justify-between' >
                 {/* <img src={logo}></img> */}
                 <h2 className='font-bold text-xl'>Exclusive</h2>
                 <div>
                     <ul className='flex space-x-4'>
-                        <Link to={'/'}><li style={{ textDecoration: `${activePage == 'Home' ? "underline" : "none"}` }}>Home</li></Link>
+                        <Link to={'/home'}><li style={{ textDecoration: `${activePage == 'Home' ? "underline" : "none"}` }}>Home</li></Link>
                         <Link to={'/products'}><li style={{ textDecoration: `${activePage == 'Products' ? "underline" : "none"}` }}>Products</li></Link>
                     </ul>
                 </div>
@@ -56,11 +60,11 @@ export const Header = ({ setFilteredProducts, products, items }) => {
                     </div>
                     <div className='relative'>
                         <img className='w-5 h-5' src={favoritesIcon}></img>
-                        <div className='bg-pink text-white absolute -top-1 -right-1 text-center text-xs' style={{ width: "16px", height: "16px", borderRadius: "50%" }}><p>{favorites.length}</p></div>
+                        <div className='bg-pink text-white absolute -top-1 -right-1 text-center text-xs' style={{ width: "16px", height: "16px", borderRadius: "50%" }}><p>{activeFavorite ? activeFavorite.favoriteProducts.length : 0}</p></div>
                     </div>
                     <Link to={'/cart'}><div className='relative'>
                         <img className='w-5 h-5' src={cartIcon}></img>
-                        <div className='bg-pink text-white absolute -top-1 -right-1 text-center text-xs' style={{ width: "16px", height: "16px", borderRadius: "50%" }}>{cartItems.length}</div>
+                        <div className='bg-pink text-white absolute -top-1 -right-1 text-center text-xs' style={{ width: "16px", height: "16px", borderRadius: "50%" }}>{activeCart ? activeCart.cartItems.length : 0}</div>
                     </div>
                     </Link>
                 </div>

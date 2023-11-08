@@ -9,7 +9,7 @@ export const Banner = () => {
     return (
         <>
             <div className='flex justify-center mt-10'>
-                <div className='pl-24 p-10 bg-black flex items-center' style={{ width: '1380px', height: '344px', }}>
+                <div className='pl-24 p-10 bg-black flex items-center w-1380 h-350'>
                     <div className='w-1/3'>
                         <div className='flex space-x-4 items-center'>
                             <img src={appleLogo}></img>

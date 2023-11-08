@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import allProducts from '../../../products.json'
 const initialState = {
-    favoriteProducts: [],
-    cart: [],
+    favorites: [],
+    carts: [],
     subtotal: "0"
 }
 export const productSlice = createSlice({
@@ -10,34 +10,83 @@ export const productSlice = createSlice({
     initialState,
     reducers: {
         addToFavorites: (state, action) => {
-            const {favoriteProduct} = action.payload;
-            console.log("favorite product: ", favoriteProduct)
-            return { ...state, favoriteProducts: [...state.favoriteProducts, favoriteProduct] };
-            //state.favorites.push(favoriteProduct);
+            let { email, product, favObj } = action.payload;
+            if (email) {
+                const updatedFavorites = state.favorites.map(favorite => {
+                    if (favorite.email === email) {
+                        return {
+                            ...favorite,
+                            favoriteProducts: [...favorite.favoriteProducts, product],
+                        };
+                    }
+                    return favorite;
+                });
+                return { ...state, favorites: updatedFavorites };
+            }
+            else {
+                return { ...state, favorites: [...state.favorites, favObj] };
+            }
         },
         removeFromFavorites: (state, action) => {
-            const {productId} = action.payload;
-            state.favoriteProducts = state.favoriteProducts.filter(item => item.id !== productId);
+            let { email, productId} = action.payload;
+            state.favorites.map(favorite => {
+                if (favorite.email === email) {
+                    console.log("favorite", favorite)
+                    favorite.favoriteProducts = favorite.favoriteProducts.filter(product => product.id !== productId)
+                }
+            })
         },
         addToCart: (state, action) => {
-            const {productAddedToCart} = action.payload;
-            return { ...state, cart: [...state.cart, productAddedToCart] };
+            let { email, product, cartObj } = action.payload;
+            if (email) {
+                const updatedCart = state.carts.map(item => {
+                    if (item.email === email) {
+                        return {
+                            ...item,
+                            cartItems: [...item.cartItems, product],
+                        };
+                    }
+                    return item;
+                });
+                return { ...state, carts: updatedCart };
+            }
+            else {
+                return { ...state, carts: [...state.carts, cartObj] };
+            }
         },
         addAllToCart: (state, action) => {
-            console.log(allProducts)
-            state.cart = allProducts;
+            const {email} = action.payload
+            state.carts.map(cart => {
+                if (cart.email === email) {
+                    cart.cartItems = allProducts
+                }
+            })
         },
         removeFromCart: (state, action) => {
-            const {productId} = action.payload;
-            state.cart = state.cart.filter(item => item.id !== productId);
+            let { email, productId} = action.payload;
+            state.carts.map(cart => {
+                if (cart.email === email) {
+                    console.log("cart", cart)
+                    cart.cartItems = cart.cartItems.filter(product => product.id !== productId)
+                }
+            })
         }, 
         removeAllFromCart: (state, action) => {
-            state.cart = [];
+            const {email} = action.payload
+            state.carts.map(cart => {
+                if (cart.email === email) {
+                    cart.cartItems = []
+                }
+            })
         },
         addSubtotalToCartItem: (state, action) => {
-            const {itemIndex, itemWithSubtotal} = action.payload;
-            console.log(itemWithSubtotal)
-            state.cart.splice(itemIndex, 1, itemWithSubtotal);
+            const {email, itemIndex, itemWithSubtotal} = action.payload;
+            state.carts.map(cart => {
+                if (cart.email === email) {
+                    console.log( "cart" ,cart)
+                    cart.cartItems.splice(itemIndex, 1, itemWithSubtotal);
+                }
+            })
         }
     },
 })

@@ -4,9 +4,12 @@ import { Header } from '../../components/header'
 import { Banner } from '../../components/banner'
 import { Card } from '../../components/productCard'
 import { Button } from '../../components/button'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setActivePage } from '../../app/features/activePage/activePageSlice'
 export const Home = () => {
+  //check active user
+  const activeUser = useSelector(state => state.users.activeUser)
+  console.log('active user:', activeUser)
 
   const [products, setProducts] = useState(allProducts)
 
@@ -15,7 +18,7 @@ export const Home = () => {
   dispatch(setActivePage("Home"));
 
   //setting button text
-  const [buttonText, setButtonText] = useState("View All Products");
+  const [viewAll, setViewAll] = useState(false);
 
   //for search functionality
   const [filteredProducts, setFilteredProducts] = useState(products)
@@ -26,20 +29,16 @@ export const Home = () => {
       <Banner />
       <h2 className='font-bold text-4xl text-center mt-32 mb-10'>New <span className='text-pink'>Products</span></h2>
       <div className='flex justify-center mb-36 '>
-        <div className='grid grid-cols-4 gap-6 max-sm:grid-cols-1' style={{ width: "1380px" }}>
-          {buttonText == "View All Products" ? (filteredProducts.filter(product => product.id <= 4)).map((product) => (
+        <div className='grid grid-cols-4 gap-6 max-sm:grid-cols-1 w-1380'>
+          {filteredProducts.filter(product => viewAll ? true : product.id <= 4).map((product) => (
             <div key={product.id} className=''>
-              <Card selectedProduct={product} discount={product.discountInPercentage} productName={product.title} oldPrice={product.oldPrice} newPrice={product.newPrice} image={product.image} />
-            </div>
-          )) : filteredProducts.map((product) => (
-            <div key={product.id}>
               <Card selectedProduct={product} discount={product.discountInPercentage} productName={product.title} oldPrice={product.oldPrice} newPrice={product.newPrice} image={product.image} />
             </div>
           ))}
         </div>
       </div>
       <div className='flex justify-center mb-32'>
-        <Button className={'px-10 py-5 rounded-md'} onClick={() => { buttonText == "View All Products" ? setButtonText("View Less Products") : setButtonText("View All Products") }} variant={"primary"} size={"large"} text={buttonText} />
+        <Button className={'px-10 py-5 rounded-md'} onClick={() => setViewAll(!viewAll)} variant={"primary"} size={"large"} text={viewAll ? 'View Less Products' : 'View All Products'} />
       </div>
     </>
   )
