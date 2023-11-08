@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Header } from '../../components/header'
 import { CartItem } from '../../components/cartItem/cartItem'
@@ -16,14 +16,14 @@ export const Cart = () => {
   //calculate subtotal 
   let subtotal = 0;
   cartItems.map(cartItem => {
-    subtotal += cartItem.subtotal ? cartItem.subtotal : 0
+    cartItem && (subtotal += cartItem.subtotal ? cartItem.subtotal : 0)
   })
 
   //set active page
   dispatch(setActivePage("Cart"))
 
-    //for search functionality
-    const [filteredProducts, setFilteredProducts] = useState(cartItems)
+  //for search functionality
+  const [filteredProducts, setFilteredProducts] = useState(cartItems)
 
   //download pdf functionality
   const downloadPDF = () => {
@@ -44,7 +44,7 @@ export const Cart = () => {
 
   return (
     <>
-      <Header setFilteredProducts={setFilteredProducts} items={cartItems}/>
+      <Header setFilteredProducts={setFilteredProducts} items={cartItems} />
       <div className='flex m-16 text-2xl font-semibold'>
         <Link to={'/'}><h2 className='text-gray-500'>Home</h2></Link>
         <h2> / </h2>
@@ -60,7 +60,7 @@ export const Cart = () => {
               <h2 className='w-1/4'>SubTotal</h2>
             </div>
             {cartItems.map(item => (
-              <CartItem item={item} />
+              item && (<CartItem item={item} />)
             ))}
           </div>
         </div>

@@ -3,6 +3,7 @@ import allProducts from '../../products.json'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import favoritesIcon from '../../assets/images/favorites_icon.png'
+import redHeart from '../../assets/images/red_heart.png'
 import cartIcon from '../../assets/images/cart_in_white.svg'
 import { addToFavorites, removeFromFavorites } from '../../app/features/products/productsSlice'
 import { Button } from '../button'
@@ -47,8 +48,8 @@ export const Card = ({ discount, image, productName, oldPrice, newPrice, selecte
                 <div className='bg-light-gray p-5 pb-10 rounded-sm relative' style={{ height: "300px" }}>
                     <div className='flex justify-between'>
                         <div className={`bg-pink text-white rounded-md px-3 py-2 ${discount > 0 ? "" : "hidden"}`}>{discount + "%"}</div>
-                        <div onClick={() => { handleAddToFavorites() }} className={`${favoriteProducts.includes(selectedProduct) ? "bg-pink" : "bg-white"} flex justify-center items-center ${activePage == "Home" ? "" : "hidden"}`} style={{ width: "36px", height: "36px", borderRadius: '50%' }}>
-                            <img className='w-5 h-5' src={favoritesIcon} />
+                        <div onClick={() => { handleAddToFavorites() }} className={`bg-white flex justify-center items-center ${activePage == "Home" ? "" : "hidden"}`} style={{ width: "36px", height: "36px", borderRadius: '50%' }}>
+                            <img className='w-5 h-5' src={favoriteProducts.includes(selectedProduct) ? redHeart : favoritesIcon} />
                         </div>
                     </div>
                     <div className='flex justify-center my-7'>
